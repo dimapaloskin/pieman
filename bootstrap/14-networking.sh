@@ -50,3 +50,13 @@ fi
 if ${dns_is_set}; then
     chroot_exec resolvconf -u
 fi
+
+if [ ! -f ${ETC}/hostname ]; then
+    install_readonly files/hostname.template ${ETC}/hostname
+    sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hostname"
+fi
+
+if [ ! -f ${ETC}/hosts ]; then
+    install_readonly files/etc/hosts.template ${ETC}/hosts
+    sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hosts"
+fi
